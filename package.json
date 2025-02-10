@@ -6,7 +6,8 @@
   "icon": "reader-logo.png",
   "author": "zach",
   "contributors": [
-    "neil_brown"
+    "neil_brown",
+    "nicolas-marien"
   ],
   "categories": [
     "Productivity",
@@ -97,6 +98,13 @@
       "title": "Open Shortlist",
       "description": "Opens Reader to the shortlist page",
       "mode": "no-view",
+      "icon": "reader-logo.png"
+    },
+    {
+      "name": "list-articles",
+      "title": "List article",
+      "description": "List the articles",
+      "mode": "view",
       "icon": "reader-logo.png"
     }
   ],
