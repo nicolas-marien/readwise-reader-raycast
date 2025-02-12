@@ -42,7 +42,7 @@ export default function ListArticleCommand() {
     list(articleLocation).then((response) => {
       console.log(response.results);
       const sortedArticles = response.results.sort(
-        (a, b) => new Date(b.saved_at).getTime() - new Date(a.saved_at).getTime()
+        (a, b) => new Date(b.last_moved_at).getTime() - new Date(a.last_moved_at).getTime()
       );
       setArticles(sortedArticles);
     });
