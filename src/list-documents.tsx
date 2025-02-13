@@ -94,7 +94,7 @@ ${article.summary}
             actions={
               <ActionPanel title={article.title}>
                 <Action.OpenInBrowser url={article.url} title="Open Article in Readwise" />
-                <Action.OpenInBrowser url={article.source_url} title="Open Article in Suurce Website" />
+                <Action.OpenInBrowser url={article.source_url} title="Open Article in Source Website" />
               </ActionPanel>
             }
           />
