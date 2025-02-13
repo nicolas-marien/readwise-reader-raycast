@@ -102,7 +102,7 @@
     },
     {
       "name": "list-documents",
-      "title": "List documents",
+      "title": "List Documents",
       "description": "List documents stored in Reader",
       "mode": "view",
       "icon": "reader-logo.png",

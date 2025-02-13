@@ -94,8 +94,8 @@ ${article.summary}
             icon={getProgressIcon(article.reading_progress)}
             actions={
               <ActionPanel title={article.title}>
-                <Action.OpenInBrowser url={article.url} title="Open article in Readwise" />
-                <Action.OpenInBrowser url={article.source_url} title="Open article in source website" />
+                <Action.OpenInBrowser url={article.url} title="Open Article in Readwise" />
+                <Action.OpenInBrowser url={article.source_url} title="Open Article in Suurce Website" />
               </ActionPanel>
             }
           />
