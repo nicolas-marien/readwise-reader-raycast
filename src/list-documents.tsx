@@ -3,6 +3,7 @@ import { usePromise } from "@raycast/utils";
 import { useState } from "react";
 import { list } from "./api/list";
 import { type Document } from "./utils/document";
+import { type PaginationOptions } from "@raycast/utils/dist/types";
 
 function getProgressIcon(readingProgress: number) {
   const asPercentage = readingProgress * 100;
@@ -28,12 +29,15 @@ export default function ListDocumentsCommand() {
     getPreferenceValues<Preference>().defaultListLocation,
   );
 
-  const { isLoading, data, pagination } = usePromise<() => Promise<Document[]>>(
-    // @ts-expect-error
-    () => async (options) => {
-      const { results, nextPageCursor } = await list(documentLocation, options.cursor);
+  const { isLoading, data, pagination } = usePromise(
+    (location) => async (options: PaginationOptions<Document[]>) => {
+      const { results, nextPageCursor } = await list(location, options.cursor);
+      const sortedDocuments = results.sort(
+        (a, b) => new Date(b.last_moved_at).getTime() - new Date(a.last_moved_at).getTime(),
+      );
+
       return {
-        data: results.sort((a, b) => new Date(b.last_moved_at).getTime() - new Date(a.last_moved_at).getTime()),
+        data: sortedDocuments,
         hasMore: !!nextPageCursor,
         cursor: nextPageCursor,
       };
