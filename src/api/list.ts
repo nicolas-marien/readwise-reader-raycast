@@ -8,8 +8,13 @@ type ApiResponse = {
   results: Article[];
 };
 
-export async function list(location: Article["location"] = "new") {
-  const readerAPI = `https://readwise.io/api/v3/list?location=${location}`;
+export async function list(location: Article["location"], cursor?: string) {
+  const readerAPI = `https://readwise.io/api/v3/list?${new URLSearchParams({
+    location,
+    ...(cursor ? { pageCursor: cursor } : {}),
+  }).toString()}`;
+
+  console.log(readerAPI);
 
   const headers = useDefaultHeaders();
 

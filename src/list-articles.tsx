@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { list } from "./api/list";
 import { Action, ActionPanel, getPreferenceValues, Icon, List } from "@raycast/api";
 import { type Article } from "./utils/article";
+import { useFetch, usePromise } from "@raycast/utils";
 
 function getProgressIcon(readingProgress: number) {
   const asPercentage = readingProgress * 100;
@@ -21,40 +22,44 @@ function getProgressIcon(readingProgress: number) {
 type Preference = {
   defaultListLocation: Article["location"];
 };
-const ArticleLocationDropdown: React.FunctionComponent<{
-  onLocationChange: (location: Article["location"]) => unknown;
-}> = (props) => {
-  const preferences = getPreferenceValues<Preference>();
-  return (
-    <List.Dropdown
-      tooltip="Location if the article to fetch"
-      defaultValue={preferences.defaultListLocation}
-      onChange={(value) => props.onLocationChange(value as Article["location"])}
-    >
-      <List.Dropdown.Item title="New" value="new" />
-      <List.Dropdown.Item title="Shortlist" value="shortlist" />
-      <List.Dropdown.Item title="Feed" value="feed" />
-      <List.Dropdown.Item title="Later" value="later" />
-      <List.Dropdown.Item title="Archive" value="archive" />
-    </List.Dropdown>
-  );
-};
+
 export default function ListArticleCommand() {
-  const [articleLocation, setArticleLocation] = useState<Article["location"]>("new");
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articleLocation, setArticleLocation] = useState<Article["location"]>(
+    getPreferenceValues<Preference>().defaultListLocation
+  );
 
-  useEffect(() => {
-    list(articleLocation).then((response) => {
-      const sortedArticles = response.results.sort(
-        (a, b) => new Date(b.last_moved_at).getTime() - new Date(a.last_moved_at).getTime()
-      );
-      setArticles(sortedArticles);
-    });
-  }, [articleLocation]);
+  const { isLoading, data, pagination } = usePromise(
+    () => async (options) => {
+      const { results, nextPageCursor } = await list(articleLocation, options.cursor);
+      console.log(results);
+      return {
+        data: results,
+        hasMore: !!nextPageCursor,
+        cursor: nextPageCursor,
+      };
+    },
+    [articleLocation]
+  );
 
   return (
-    <List isShowingDetail searchBarAccessory={<ArticleLocationDropdown onLocationChange={setArticleLocation} />}>
-      {articles.map((article) => (
+    <List
+      isLoading={isLoading}
+      searchBarAccessory={
+        <List.Dropdown
+          tooltip="Location if the article to fetch"
+          defaultValue={articleLocation}
+          onChange={(value) => setArticleLocation(value as Article["location"])}
+        >
+          <List.Dropdown.Item title="New" value="new" />
+          <List.Dropdown.Item title="Shortlist" value="shortlist" />
+          <List.Dropdown.Item title="Feed" value="feed" />
+          <List.Dropdown.Item title="Later" value="later" />
+          <List.Dropdown.Item title="Archive" value="archive" />
+        </List.Dropdown>
+      }
+      pagination={pagination}
+    >
+      {data?.map((article) => (
         <List.Item
           key={article.id}
           title={article.title}
@@ -65,7 +70,7 @@ export default function ListArticleCommand() {
 # ${article.title}
 
 ![](${article.image_url})
-            
+
 ${article.summary}
             `}
             />
