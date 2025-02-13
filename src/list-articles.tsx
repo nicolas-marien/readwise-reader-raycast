@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { list } from "./api/list";
-import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import { Action, ActionPanel, getPreferenceValues, Icon, List } from "@raycast/api";
 import { type Article } from "./utils/article";
 
 function getProgressIcon(readingProgress: number) {
@@ -18,12 +18,17 @@ function getProgressIcon(readingProgress: number) {
   }
 }
 
+type Preference = {
+  defaultListLocation: Article["location"];
+};
 const ArticleLocationDropdown: React.FunctionComponent<{
   onLocationChange: (location: Article["location"]) => unknown;
 }> = (props) => {
+  const preferences = getPreferenceValues<Preference>();
   return (
     <List.Dropdown
       tooltip="Location if the article to fetch"
+      defaultValue={preferences.defaultListLocation}
       onChange={(value) => props.onLocationChange(value as Article["location"])}
     >
       <List.Dropdown.Item title="New" value="new" />
@@ -40,7 +45,6 @@ export default function ListArticleCommand() {
 
   useEffect(() => {
     list(articleLocation).then((response) => {
-      console.log(response.results);
       const sortedArticles = response.results.sort(
         (a, b) => new Date(b.last_moved_at).getTime() - new Date(a.last_moved_at).getTime()
       );

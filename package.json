@@ -105,7 +105,35 @@
       "title": "List article",
       "description": "List the articles",
       "mode": "view",
-      "icon": "reader-logo.png"
+      "icon": "reader-logo.png",
+      "preferences": [
+        {
+          "name": "defaultListLocation",
+          "data": [
+            {
+              "title": "New",
+              "value": "new"
+            },
+            {
+              "title": "Shortlist",
+              "value": "shortlist"
+            },
+            {
+              "title": "Feed",
+              "value": "feed"
+            },
+            {
+              "title": "Later",
+              "value": "later"
+            }
+          ],
+          "required": false,
+          "default": "shortlist",
+          "type": "dropdown",
+          "description": "The default location to use when listing content",
+          "title": "Default list location"
+        }
+      ]
     }
   ],
   "dependencies": {

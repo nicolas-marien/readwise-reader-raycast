@@ -4,12 +4,12 @@ import fetch from "node-fetch";
 
 type ApiResponse = {
   count: number;
-  nextPageCursor: string;
+  nextPageCursor?: string;
   results: Article[];
 };
 
 export async function list(location: Article["location"] = "new") {
-  const readerAPI = `https://readwise.io/api/v3/list?location=${location}&category=article`;
+  const readerAPI = `https://readwise.io/api/v3/list?location=${location}`;
 
   const headers = useDefaultHeaders();
 
