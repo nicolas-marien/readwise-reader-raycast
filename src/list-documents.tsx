@@ -74,7 +74,6 @@ ${article.summary}
           <List.Item
             key={article.id}
             title={article.title}
-            subtitle={article.site_name}
             detail={
               <List.Item.Detail
                 markdown={markdown}
