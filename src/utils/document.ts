@@ -1,4 +1,4 @@
-export type Article = {
+export type Document = {
   id: string;
   url: string;
   source_url: string;
@@ -7,7 +7,7 @@ export type Article = {
   source: string;
   category: string;
   location: "new" | "shortlist" | "feed" | "later" | "archive";
-  tags: Record<string, unknown>; // Assuming tags can be an object with unknown structure
+  tags: Record<string, { name: string; type: string; created: number }>; // Assuming tags can be an object with unknown structure
   site_name: string;
   word_count: number;
   created_at: string; // ISO 8601 date string

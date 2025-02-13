@@ -36,8 +36,8 @@ declare namespace Preferences {
   export type Search = ExtensionPreferences & {}
   /** Preferences accessible in the `open-shortlist` command */
   export type OpenShortlist = ExtensionPreferences & {}
-  /** Preferences accessible in the `list-articles` command */
-  export type ListArticles = ExtensionPreferences & {
+  /** Preferences accessible in the `list-documents` command */
+  export type ListDocuments = ExtensionPreferences & {
   /** Default list location - The default location to use when listing content */
   "defaultListLocation": "new" | "shortlist" | "feed" | "later"
 }
@@ -69,7 +69,7 @@ declare namespace Arguments {
   export type Search = {}
   /** Arguments passed to the `open-shortlist` command */
   export type OpenShortlist = {}
-  /** Arguments passed to the `list-articles` command */
-  export type ListArticles = {}
+  /** Arguments passed to the `list-documents` command */
+  export type ListDocuments = {}
 }
 

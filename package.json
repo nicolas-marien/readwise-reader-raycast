@@ -101,9 +101,9 @@
       "icon": "reader-logo.png"
     },
     {
-      "name": "list-articles",
-      "title": "List article",
-      "description": "List the articles",
+      "name": "list-documents",
+      "title": "List documents",
+      "description": "List documents stored in Reader",
       "mode": "view",
       "icon": "reader-logo.png",
       "preferences": [
